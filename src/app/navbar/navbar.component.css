@@ -1,0 +1,9 @@
+#navbar{
+    background-color: var(--secondary);
+}
+
+.navtext{
+    color: var(--text);
+}
+
+
