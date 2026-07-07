@@ -25,4 +25,16 @@ export class ApiService {
       }
     })
   }
+
+  getExercises$() {
+    return this.http.get(environments.apiUrl + 'exercises', {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  getExerciseWithoutLoggedIn$(){
+    return this.http.get(environments.apiUrl + 'exercises-without-logged-in')
+  }
 }

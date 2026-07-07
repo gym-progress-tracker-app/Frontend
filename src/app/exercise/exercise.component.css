@@ -1,0 +1,10 @@
+.card{
+    background-color: var(--secondary);
+}
+
+.img{
+    display: block;
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+}
