@@ -4,7 +4,8 @@
     --background: #d3d9df;
     --primary : #2563EB;
     --secondary : #64748B;
-    --text : #1E293B;
+    --text : white;
+    /* --text : #1E293B; */
 }
 
 html,

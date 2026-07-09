@@ -1,38 +1,33 @@
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
-  <div class="col">
-    <div class="card h-100">
-      <img src="back.png" class="card-img-top img" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+@for(exercise of exercises; track exercise.id){
+    <div class="col">
+      <div class="card h-100">
+        @if(exercise.category_id == 1){
+          <img src="chest.png" class="card-img-top img" alt="chest">
+        }
+        @if(exercise.category_id == 2){
+          <img src="back.png" class="card-img-top img" alt="back">
+        }
+        @if(exercise.category_id == 3){
+          <img src="legs.png" class="card-img-top img" alt="legs">
+        }
+        @if(exercise.category_id == 4){
+          <img src="shoulder.png" class="card-img-top img" alt="shoulder">
+        }
+        @if(exercise.category_id == 5){
+          <img src="arms.png" class="card-img-top img" alt="arms">
+        }
+        @if(exercise.category_id == 6){
+          <img src="abs.png" class="card-img-top img" alt="abs">
+        }
+        <div class="card-body d-flex flex-column align-items-center">
+          <h5 class="card-title">{{exercise.name}}</h5>
+          <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+           @if(this.api.isLoggedIn()){
+            <button class="btn btn-light" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
+           }
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a short card.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
-  </div>
+}
 </div>

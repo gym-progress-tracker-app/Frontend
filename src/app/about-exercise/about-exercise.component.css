@@ -1,0 +1,25 @@
+.scrollable-list {
+	width: min(100%, 42rem);
+	max-height: 40vh;
+	margin: 1.5rem auto;
+	overflow-y: auto;
+}
+
+.btn {
+	padding: 4px 4px 4px 1px;
+	border: 0;
+	/* background: transparent; */
+    background-color: var(--secondary);
+}
+
+@media (max-width: 576px) {
+	.scrollable-list {
+		max-height: 25vh;
+	}
+}
+
+.backimg {
+	width: 2.5rem;
+	height: auto;
+	display: block;
+}

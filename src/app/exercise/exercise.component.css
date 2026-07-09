@@ -8,3 +8,7 @@
     height: auto;
     margin: 0 auto;
 }
+
+.card-title{
+    color: var(--text);
+}

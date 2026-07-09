@@ -1,1 +1,21 @@
-<p>about-exercise works!</p>
+<!-- <p>Selected exercise ID: {{ exerciseId }}</p> -->
+<button class="btn mt-3" routerLink="/exercise">
+    <img src="backbtn.png" alt="Back" class="backimg">
+</button>
+<h1 class="mt-2">{{ progressLogs[0]?.exercise?.name }}</h1>
+
+ <ul class="list-group scrollable-list">
+
+    @for(progressLog of progressLogs; track progressLog.id){
+
+        <li class="list-group-item">
+            <a>Weight: {{ progressLog.weight }}</a><br>
+            <a>Reps: {{ progressLog.reps }}</a><br>
+            <a>Sets: {{ progressLog.sets }}</a><br>
+            <a>Note: {{ progressLog.note }}</a><br>
+            <a>Recorded: {{ progressLog.recorded_at }}</a>
+        </li>
+
+    }
+
+</ul>

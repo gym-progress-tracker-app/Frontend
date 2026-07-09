@@ -10,6 +10,7 @@ export class ApiService {
 
   isLoggedIn = signal(false)
 
+  // user
   register$(data : any) {
     return this.http.post(environments.apiUrl + 'register', data)
   }
@@ -26,6 +27,7 @@ export class ApiService {
     })
   }
 
+  // exercises
   getExercises$() {
     return this.http.get(environments.apiUrl + 'exercises', {
       headers : {
@@ -37,4 +39,14 @@ export class ApiService {
   getExerciseWithoutLoggedIn$(){
     return this.http.get(environments.apiUrl + 'exercises-without-logged-in')
   }
+
+  //progressLogs
+  getProgressLogByExerciseId$(id : number) {
+    return this.http.get(environments.apiUrl + 'progresslogs/' + id, {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
 }
