@@ -1,5 +1,6 @@
 .card{
-    background-color: var(--secondary);
+	background-color: var(--secondary);
+	border: 1px solid rgba(100, 116, 139, 0.28);
 }
 
 .img{
@@ -11,4 +12,8 @@
 
 .card-title{
     color: var(--text);
+}
+
+.card-body {
+	background: transparent;
 }

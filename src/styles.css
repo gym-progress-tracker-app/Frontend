@@ -12,6 +12,9 @@ html,
 body {
     min-height: 100%;
     margin: 0;
-    background-color: var(--background) !important;
+   	background:
+		linear-gradient(135deg, rgba(211, 217, 223, 0.98) 0%, rgba(211, 217, 223, 0.9) 34%, rgba(211, 217, 223, 0.3) 58%, rgba(100, 116, 139, 0.1) 100%);
+	overflow: hidden;
+   
 }
 
