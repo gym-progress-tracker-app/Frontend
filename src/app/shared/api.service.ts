@@ -40,6 +40,14 @@ export class ApiService {
     return this.http.get(environments.apiUrl + 'exercises-without-logged-in')
   }
 
+  addExercise$(data : any) {
+    return this.http.post(environments.apiUrl + 'exercises', data, {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
   //progressLogs
   getProgressLogByExerciseId$(id : number) {
     return this.http.get(environments.apiUrl + 'progresslogs/' + id, {
@@ -47,6 +55,11 @@ export class ApiService {
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
     })
+  }
+
+  // categories
+  getCategories$() {
+    return this.http.get(environments.apiUrl + 'categories')
   }
 
 }

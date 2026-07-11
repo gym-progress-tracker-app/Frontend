@@ -1,3 +1,51 @@
+@if(this.api.isLoggedIn()){
+  <p>
+    <button #addExerciseToggle class="btn mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" (click)="addMode()">
+      @if(addModeBool){
+        Cancel
+      }@else{
+        Add Exercise
+      }
+    </button>
+  </p>
+  <div>
+    <div class="collapse collapse-horizontal" id="collapseWidthExample">
+      <div class="card card-body" style="width: 70%;">
+        
+        <form [formGroup]="exerciseForm" (ngSubmit)="addExercise(exerciseForm.value)">
+          <div class="mb-3">
+            <label class="form-label" for="exerciseName">Exercise name</label>
+            <input type="text" class="form-control" id="exerciseName" placeholder="Enter exercise name" formControlName="name">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="exerciseName">Exercise Category</label> 
+            <select class="form-select" aria-label="Default select example" formControlName="category">
+
+              <option value="">Select a category</option>
+
+              @for(category of categories; track category.id){
+                <option [value]="category.name">{{category.name}}</option>
+              }
+
+            </select>
+
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="exerciseDescription">Description</label>
+            <input type="text" class="form-control" id="exerciseDescription" placeholder="Enter exercise description" formControlName="description">
+          </div>
+
+          <button type="submit" class="btn">Add</button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+}
+
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
 @for(exercise of exercises; track exercise.id){
     <div class="col">
@@ -24,7 +72,7 @@
           <h5 class="card-title">{{exercise.name}}</h5>
           <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
            @if(this.api.isLoggedIn()){
-            <button class="btn btn-light" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
+            <button class="btn btnsecondary" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
            }
         </div>
       </div>

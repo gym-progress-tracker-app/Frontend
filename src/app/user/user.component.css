@@ -1,8 +1,3 @@
-.regiserloginbtn{
-    background-color: var(--secondary);
-    color: var(--text);
-}
-
 .switchlogin{
 	background: transparent;
     color: var(--secondary);
