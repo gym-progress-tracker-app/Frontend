@@ -1,13 +1,51 @@
 <!-- <p>Selected exercise ID: {{ exerciseId }}</p> -->
 
-
-
-<button class="btn mt-3" routerLink="/exercise">
+<button class="btn btnback mt-3" routerLink="/exercise">
     <img src="backbtn.png" alt="Back" class="backimg">
 </button>
 <h1 class="mt-2">{{ progressLogs[0]?.exercise?.name }}</h1>
 
- <ul class="list-group scrollable-list">
+<p>
+  <button #addProgressLogToggle class="btn mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" (click)="addMode()">
+    @if(addModeBool){
+      Cancel
+    }@else{
+      Add Progress Log
+    }
+  </button>
+</p>
+
+<div>
+  <div class="collapse collapse-horizontal" id="collapseWidthExample">
+    <div class="card card-body" style="width: 70%;">
+      <form [formGroup]="progressLogForm" (ngSubmit)="addProgressLog(progressLogForm.value)">
+        <div class="mb-3">
+          <label class="form-label" for="weight">Weight</label>
+          <input type="text" class="form-control" id="weight" placeholder="Enter weight" formControlName="weight">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="reps">Reps</label>
+          <input type="text" class="form-control" id="reps" placeholder="Enter reps" formControlName="reps">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="sets">Sets</label>
+          <input type="text" class="form-control" id="sets" placeholder="Enter sets" formControlName="sets">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="note">Note</label>
+          <input type="text" class="form-control" id="note" placeholder="Enter note" formControlName="note">
+        </div>
+
+        <button type="submit" class="btn">Add</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+ <ul class="list-group scrollable-list ">
 
     @for(progressLog of progressLogs; track progressLog.id){
 
@@ -17,7 +55,10 @@
             <a>Sets: {{ progressLog.sets }}</a><br>
             <a>Note: {{ progressLog.note }}</a><br>
             <a>Recorded: {{ progressLog.recorded_at }}</a>
+            
         </li>
+        <button class="btn mb-2" (click)="deleteProgressLog(progressLog.id)">Törlés</button>
+        
 
     }
 

@@ -80,6 +80,8 @@
             <button class="btn btnsecondary mb-3" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
             @if(!isOwnExercise(exercise.id)){
               <button class="btn btnsecondary" (click)="addOwnExercise({ exercise_id: exercise.id })">Add to Own Exercises</button>
+            }@else {
+              <button class="btn btnsecondary" (click)="removeOwnExercise(exercise.id)">Remove from Own Exercises</button>
             }
            }@else{
             <button class="btn btnsecondary" [routerLink]="['/user']">Log In to Log Exercise</button>

@@ -5,10 +5,19 @@
 	overflow-y: auto;
 }
 
-.btn {
-	padding: 4px 4px 4px 1px;
+.card{
+	background-color: var(--secondary);
+	border: 1px solid rgba(100, 116, 139, 0.28);
+}
+
+.card-body {
+	background: transparent;
+}
+
+.btnback {
+	padding: 7px 7px 7px 3px;
 	border: 0;
-	/* background: transparent; */
+	background: transparent;
     background-color: var(--secondary);
 }
 

@@ -158,6 +158,16 @@ export class ExerciseComponent {
     return this.ownExerciseIds.includes(exerciseId);
   }
 
-
-
+  removeOwnExercise(exerciseId: number) {
+    this.api.removeOwnExercise$(exerciseId).subscribe({
+      next : (res : any) => {
+        console.log(res)
+        this.loadOwnExerciseIds();
+        this.ownExercises ? this.getOwnExercises() : this.getExercises();
+      },
+      error : (err) => {
+        console.log(err)
+      }
+    })
+  }
 }

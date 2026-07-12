@@ -65,9 +65,33 @@ export class ApiService {
     })
   }
 
+  removeOwnExercise$(exerciseId : number) {
+    return this.http.delete(environments.apiUrl + 'own-exercises/' + exerciseId, {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
   //progressLogs
   getProgressLogByExerciseId$(id : number) {
     return this.http.get(environments.apiUrl + 'progresslogs/' + id, {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  addProgressLog$(data : any) {
+    return this.http.post(environments.apiUrl + 'progresslogs', data, {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  deleteProgressLog$(id : number) {
+    return this.http.delete(environments.apiUrl + 'progresslogs/' + id, {
       headers : {
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }
