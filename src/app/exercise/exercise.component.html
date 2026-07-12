@@ -15,7 +15,7 @@
   </p>
   <div>
     <div class="collapse collapse-horizontal" id="collapseWidthExample">
-      <div class="card card-body" style="width: 70%;">
+      <div class="card card-body" style="width: 100%;">
         
         <form [formGroup]="exerciseForm" (ngSubmit)="addExercise(exerciseForm.value)">
           <div class="mb-3">
@@ -27,10 +27,11 @@
             <label class="form-label" for="exerciseName">Exercise Category</label> 
             <select class="form-select" aria-label="Default select example" formControlName="category">
 
-              <option value="">Select a category</option>
+              
 
               @for(category of categories; track category.id){
-                <option [value]="category.name">{{category.name}}</option>
+                
+                <option selected [value]="category.name">{{category.name}}</option>
               }
 
             </select>
@@ -51,41 +52,67 @@
   </div>
 }
 
-<div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-4 mb-5">
 @for(exercise of exercises; track exercise.id){
     <div class="col">
       <div class="card h-100">
-        @if(exercise.category_id == 1){
-          <img src="chest.png" class="card-img-top img" alt="chest">
-        }
-        @if(exercise.category_id == 2){
-          <img src="back.png" class="card-img-top img" alt="back">
-        }
-        @if(exercise.category_id == 3){
-          <img src="legs.png" class="card-img-top img" alt="legs">
-        }
-        @if(exercise.category_id == 4){
-          <img src="shoulder.png" class="card-img-top img" alt="shoulder">
-        }
-        @if(exercise.category_id == 5){
-          <img src="arms.png" class="card-img-top img" alt="arms">
-        }
-        @if(exercise.category_id == 6){
-          <img src="abs.png" class="card-img-top img" alt="abs">
-        }
-        <div class="card-body d-flex flex-column align-items-center">
-          <h5 class="card-title">{{exercise.name}}</h5>
-          <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-           @if(this.api.isLoggedIn()){
-            <button class="btn btnsecondary mb-3" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
-            @if(!isOwnExercise(exercise.id)){
-              <button class="btn btnsecondary" (click)="addOwnExercise({ exercise_id: exercise.id })">Add to Own Exercises</button>
-            }@else {
-              <button class="btn btnsecondary" (click)="removeOwnExercise(exercise.id)">Remove from Own Exercises</button>
-            }
-           }@else{
-            <button class="btn btnsecondary" [routerLink]="['/user']">Log In to Log Exercise</button>
-           }
+        <div [id]="'exerciseCarousel' + exercise.id" class="carousel slide h-100">
+          <div class="carousel-indicators">
+            <button type="button" [attr.data-bs-target]="'#exerciseCarousel' + exercise.id" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" [attr.data-bs-target]="'#exerciseCarousel' + exercise.id" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          </div>
+
+          <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100">
+              @if(exercise.category_id == 1){
+                <img src="chest.png" class="card-img-top img" alt="chest">
+              }
+              @if(exercise.category_id == 2){
+                <img src="back.png" class="card-img-top img" alt="back">
+              }
+              @if(exercise.category_id == 3){
+                <img src="legs.png" class="card-img-top img" alt="legs">
+              }
+              @if(exercise.category_id == 4){
+                <img src="shoulder.png" class="card-img-top img" alt="shoulder">
+              }
+              @if(exercise.category_id == 5){
+                <img src="arms.png" class="card-img-top img" alt="arms">
+              }
+              @if(exercise.category_id == 6){
+                <img src="abs.png" class="card-img-top img" alt="abs">
+              }
+              <div class="card-body d-flex flex-column align-items-center exercise-slide-body">
+                <h5 class="card-title">{{exercise.name}}</h5>
+                 @if(this.api.isLoggedIn()){
+                  <button class="btn btnsecondary mb-3" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
+                  @if(!isOwnExercise(exercise.id)){
+                    <button class="btn btnsecondary" (click)="addOwnExercise({ exercise_id: exercise.id })">Add to Own Exercises</button>
+                  }@else {
+                    <button class="btn btnsecondary" (click)="removeOwnExercise(exercise.id)">Remove from Own Exercises</button>
+                  }
+                 }@else{
+                  <button class="btn btnsecondary" [routerLink]="['/user']">Log In to Log Exercise</button>
+                 }
+              </div>
+            </div>
+
+            <div class="carousel-item h-100">
+              <div class="card-body d-flex flex-column justify-content-center exercise-slide-body exercise-description-slide">
+                <h5 class="card-title text-center">{{exercise.name}}</h5>
+                <p class="card-text text-center mb-0">{{ exercise.description || 'No description available.' }}</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#exerciseCarousel' + exercise.id" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#exerciseCarousel' + exercise.id" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
       </div>
     </div>

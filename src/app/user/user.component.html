@@ -1,4 +1,8 @@
+@if (isLoggedIn()) {
+    <h1>Welcome, {{ username }}!</h1>
+}
 @if(!isLoggedIn()){
+    
     <form class="mt-3" [formGroup]="userForm" (ngSubmit)="submit()">
 
         <div class="mb-3 form-floating">
@@ -29,6 +33,8 @@
 
     </form>
 
+
+
     @if(this.errorMessage != ''){
         <div class="alert alert-danger mt-3" role="alert">
             {{ errorMessage }}
@@ -49,12 +55,45 @@
         <p>Already have an account? <button (click)="registerMode = false" class="switchlogin">Login!</button></p>
     </div>
     }
+}@else{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+            <img src="ownexercise.png" class="card-img-top img" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">You have {{ ownExercisesCount }} own exercises</h5>
+                <!-- <p class="card-text"></p> -->
+            </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+            <img src="favorite.png" class="card-img-top img" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Your favorite exercise is {{ favoriteExerciseName }}</h5>
+                <!-- <p class="card-text"></p> -->
+            </div>
+            </div>
+        </div>
+    
+        <div class="col">
+            <div class="card h-100">
+            <img src="total.png" class="card-img-top img" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Total Exercises Logged: {{ logCount}}</h5>
+                <!-- <p class="card-text"></p> -->
+            </div>
+            </div>
+        </div>
+    </div>
+
+    
 }
 
 @if(isLoggedIn()){
     <div class="mt-3">
-        <p>Welcome!</p>
-        <button (click)="logout()" class="btn mt-3">Logout</button>
+        
+        <button (click)="logout()" class="btn mt-3 mb-3">Logout</button>
     </div>
 }
 

@@ -19,6 +19,12 @@ export class UserComponent {
   userForm : any;
   errorMessage :any;
 
+  ownExercisesCount : any;
+  favoriteExerciseName : any;
+  logCount : any;
+  username : any;
+
+
 
 
   ngOnInit() {
@@ -29,6 +35,13 @@ export class UserComponent {
       password_confirmation : ['']
     })
     this.errorMessage = ''
+
+    if (this.isLoggedIn()) {
+      this.username = this.getStoredUsername();
+      this.loadDashboard();
+    }
+
+
   }
 
   isLoggedIn() {
@@ -64,6 +77,7 @@ export class UserComponent {
       next : (res :any) => {
         console.log(res)
         const token = res?.data?.token
+        const user = res?.data?.user
 
         if (!token) {
           this.errorMessage = 'Nem erkezett token a valaszban.'
@@ -72,9 +86,14 @@ export class UserComponent {
 
         this.api.isLoggedIn.set(true)
         localStorage.setItem('token', token)
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user))
+          this.username = user.name || ''
+        }
         this.registerMode = false
         this.userForm.reset()
         this.errorMessage = ''
+        this.loadDashboard()
       },
       error : (err) => {
         console.log(err)
@@ -91,13 +110,75 @@ export class UserComponent {
         console.log(res)
         this.api.isLoggedIn.set(false)
         localStorage.removeItem('token')
+        localStorage.removeItem('user')
         this.registerMode = false
         this.userForm.reset()
         this.errorMessage = ''
+        this.username = ''
+        this.ownExercisesCount = undefined
+        this.favoriteExerciseName = undefined
+        this.logCount = undefined
       },
       error : (err) => {
         console.log(err)
       }
     })
   }
+
+  // dashboard
+
+  countOwnExercises() {
+    this.api.countOwnExercises$().subscribe({
+      next : (res :any) => {
+        this.ownExercisesCount = res?.data?.count
+      },
+      error : (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  favoriteExercise() {
+    this.api.favoriteExercise$().subscribe({
+      next : (res :any) => {
+        this.favoriteExerciseName = res?.data
+      },
+      error : (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  countLoggedExercises() {
+    this.api.countLoggedExercises$().subscribe({
+      next : (res :any) => {
+        this.logCount = res?.data?.count
+      },
+      error : (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  loadDashboard() {
+    this.countOwnExercises()
+    this.favoriteExercise()
+    this.countLoggedExercises()
+  }
+
+  getStoredUsername() {
+    const storedUser = localStorage.getItem('user')
+
+    if (!storedUser) {
+      return ''
+    }
+
+    try {
+      return JSON.parse(storedUser)?.name || ''
+    } catch {
+      return ''
+    }
+  }
+
+
 }

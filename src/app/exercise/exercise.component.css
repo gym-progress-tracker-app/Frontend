@@ -18,3 +18,37 @@
 	background: transparent;
 }
 
+.carousel,
+.carousel-inner,
+.carousel-item {
+    height: 100%;
+}
+
+.exercise-slide-body {
+    min-height: 220px;
+    padding: 3rem 3rem 2.5rem;
+}
+
+.exercise-description-slide {
+    color: var(--text);
+    padding-top: 4rem;
+}
+
+.card-text {
+    color: var(--text);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 12%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(1);
+}
+
+.carousel-indicators {
+    margin-bottom: 0.6rem;
+}
+

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   constructor(private http: HttpClient) {} 
 
-  isLoggedIn = signal(false)
+  isLoggedIn = signal(!!localStorage.getItem('token'))
 
   // user
   register$(data : any) {
@@ -67,6 +67,30 @@ export class ApiService {
 
   removeOwnExercise$(exerciseId : number) {
     return this.http.delete(environments.apiUrl + 'own-exercises/' + exerciseId, {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  countOwnExercises$() {
+    return this.http.get(environments.apiUrl + 'own-exercises/count', {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  favoriteExercise$() {
+    return this.http.get(environments.apiUrl + 'progresslogs/favorite/exercise', {
+      headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  countLoggedExercises$() {
+    return this.http.get(environments.apiUrl + 'progresslogs/count', {
       headers : {
         Authorization : 'Bearer ' + localStorage.getItem('token')
       }

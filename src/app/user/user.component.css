@@ -18,3 +18,32 @@
 	border-color: rgba(220, 53, 69, 0.3);
 }
 
+.card{
+	background-color: var(--secondary);
+	border: 1px solid rgba(100, 116, 139, 0.28);
+}
+
+.img{
+    display: block;
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.card-title{
+    color: var(--text);
+}
+
+.card-body {
+	background: transparent;
+}
+
+h1 {
+	margin: 0;
+	max-width: 9ch;
+	font-size: clamp(2.0rem, 3vw, 4rem);
+	line-height: 0.95;
+	color: #1f2937;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
