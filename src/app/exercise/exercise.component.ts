@@ -18,14 +18,21 @@ export class ExerciseComponent {
   ) {}
 
   exercises: any[] = [];
+  ownExerciseIds: number[] = [];
   categories: any[] = [];
   exerciseForm : any;
   addModeBool = false;
+  ownExercises = false;
 
 
   ngOnInit() { 
     if (this.api.isLoggedIn()) {
-      this.getExercises();
+      this.loadOwnExerciseIds();
+      if(this.ownExercises){
+        this.getOwnExercises();
+      }else{
+        this.getExercises();
+      }
     }else {
       this.getExerciseWithoutLoggedIn();
     }
@@ -44,6 +51,18 @@ export class ExerciseComponent {
     this.exerciseForm.reset();
    }
 
+  onExerciseFilterChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.ownExercises = selectElement.value === 'own';
+
+    if (this.ownExercises) {
+      this.getOwnExercises();
+      return;
+    }
+
+    this.getExercises();
+  }
+
   getExercises() {
     this.api.getExercises$().subscribe({
       next : (res : any) => {
@@ -53,6 +72,17 @@ export class ExerciseComponent {
       error : (err) => {
         console.log(err)
         
+      }
+    })
+  }
+
+  loadOwnExerciseIds() {
+    this.api.getOwnExercises$().subscribe({
+      next : (res : any) => {
+        this.ownExerciseIds = res.data.map((item: any) => item.exercise_id)
+      },
+      error : (err) => {
+        console.log(err)
       }
     })
   }
@@ -87,7 +117,7 @@ export class ExerciseComponent {
     this.api.addExercise$(data).subscribe({
       next : (res : any) => {
         console.log(res)
-        this.getExercises();
+        this.ownExercises ? this.getOwnExercises() : this.getExercises();
         if (this.addModeBool) {
           this.addExerciseToggle?.nativeElement.click();
         }
@@ -96,6 +126,36 @@ export class ExerciseComponent {
         console.log(err)
       }
     })
+  }
+
+  getOwnExercises() {
+    this.api.getOwnExercises$().subscribe({
+      next : (res : any) => {
+        this.ownExerciseIds = res.data.map((item: any) => item.exercise_id)
+        this.exercises = res.data.map((item: any) => item.exercise)
+        // console.log(this.exercises)
+      },
+      error : (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  addOwnExercise(data : any) {
+    this.api.addOwnExercise$(data).subscribe({
+      next : (res : any) => {
+        console.log(res)
+        this.loadOwnExerciseIds();
+        this.ownExercises ? this.getOwnExercises() : this.getExercises();
+      },
+      error : (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  isOwnExercise(exerciseId: number) {
+    return this.ownExerciseIds.includes(exerciseId);
   }
 
 

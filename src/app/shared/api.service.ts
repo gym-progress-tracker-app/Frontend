@@ -48,6 +48,23 @@ export class ApiService {
     })
   }
 
+  // ownexercises
+  getOwnExercises$() {
+    return this.http.get(environments.apiUrl + 'own-exercises', {  
+    headers : {
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
+  addOwnExercise$(data : any) {
+    return this.http.post(environments.apiUrl + 'own-exercises', data, {
+      headers : { 
+        Authorization : 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+  }
+
   //progressLogs
   getProgressLogByExerciseId$(id : number) {
     return this.http.get(environments.apiUrl + 'progresslogs/' + id, {

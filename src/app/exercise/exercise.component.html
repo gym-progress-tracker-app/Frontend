@@ -1,4 +1,9 @@
 @if(this.api.isLoggedIn()){
+  <select class="form-select mt-3" aria-label="Exercise filter" (change)="onExerciseFilterChange($event)">
+    <option value="all" [selected]="!ownExercises">All exercises</option>
+    <option value="own" [selected]="ownExercises">Own exercises</option>
+  </select>
+  
   <p>
     <button #addExerciseToggle class="btn mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" (click)="addMode()">
       @if(addModeBool){
@@ -72,7 +77,12 @@
           <h5 class="card-title">{{exercise.name}}</h5>
           <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
            @if(this.api.isLoggedIn()){
-            <button class="btn btnsecondary" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
+            <button class="btn btnsecondary mb-3" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
+            @if(!isOwnExercise(exercise.id)){
+              <button class="btn btnsecondary" (click)="addOwnExercise({ exercise_id: exercise.id })">Add to Own Exercises</button>
+            }
+           }@else{
+            <button class="btn btnsecondary" [routerLink]="['/user']">Log In to Log Exercise</button>
            }
         </div>
       </div>
