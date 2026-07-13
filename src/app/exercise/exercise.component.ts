@@ -2,10 +2,11 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../shared/api.service';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ExerciseFilterPipe } from '../shared/pipes/exercise-filter-pipe';
 
 @Component({
   selector: 'app-exercise',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, ExerciseFilterPipe],
   templateUrl: './exercise.component.html',
   styleUrl: './exercise.component.css',
 })
@@ -23,6 +24,10 @@ export class ExerciseComponent {
   exerciseForm : any;
   addModeBool = false;
   ownExercises = false;
+  errorMessage = '';
+  exerciseNameFilter = '';
+  exerciseCategoryFilter = '';
+  availableExerciseCategories: string[] = [];
 
 
   ngOnInit() { 
@@ -49,6 +54,7 @@ export class ExerciseComponent {
    addMode() {
     this.addModeBool = !this.addModeBool;
     this.exerciseForm.reset();
+    this.errorMessage = '';
    }
 
   onExerciseFilterChange(event: Event) {
@@ -63,11 +69,22 @@ export class ExerciseComponent {
     this.getExercises();
   }
 
+  onExerciseNameFilterChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.exerciseNameFilter = inputElement.value;
+  }
+
+  onExerciseCategoryFilterChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.exerciseCategoryFilter = selectElement.value;
+  }
+
   getExercises() {
     this.api.getExercises$().subscribe({
       next : (res : any) => {
         this.exercises = res.data
-        // console.log(this.exercises)
+        this.updateAvailableExerciseCategories(this.exercises)
+        console.log(this.exercises)
       },
       error : (err) => {
         console.log(err)
@@ -92,7 +109,8 @@ export class ExerciseComponent {
     this.api.getExerciseWithoutLoggedIn$().subscribe({
       next : (res : any) => {
         this.exercises = res.data
-        // console.log(this.exercises)
+        this.updateAvailableExerciseCategories(this.exercises)
+        console.log(this.exercises)
       },
       error : (err) => {
         console.log(err)
@@ -114,6 +132,7 @@ export class ExerciseComponent {
 
 
   addExercise(data : any) {
+    this.errorMessage = '';
     this.api.addExercise$(data).subscribe({
       next : (res : any) => {
         console.log(res)
@@ -121,9 +140,13 @@ export class ExerciseComponent {
         if (this.addModeBool) {
           this.addExerciseToggle?.nativeElement.click();
         }
+        
       },
       error : (err) => {
         console.log(err)
+        this.errorMessage = err.error?.errors
+          ? Object.values(err.error.errors).flat().join(' ')
+          : 'Hiba történt.'
       }
     })
   }
@@ -133,6 +156,7 @@ export class ExerciseComponent {
       next : (res : any) => {
         this.ownExerciseIds = res.data.map((item: any) => item.exercise_id)
         this.exercises = res.data.map((item: any) => item.exercise)
+        this.updateAvailableExerciseCategories(this.exercises)
         // console.log(this.exercises)
       },
       error : (err) => {
@@ -169,5 +193,17 @@ export class ExerciseComponent {
         console.log(err)
       }
     })
+  }
+
+  updateAvailableExerciseCategories(exercises: any[]) {
+    this.availableExerciseCategories = [...new Set(
+      exercises
+        .map((exercise: any) => exercise?.category?.name ?? exercise?.category)
+        .filter((categoryName: string | null | undefined) => !!categoryName)
+    )];
+
+    if (this.exerciseCategoryFilter && !this.availableExerciseCategories.includes(this.exerciseCategoryFilter)) {
+      this.exerciseCategoryFilter = '';
+    }
   }
 }

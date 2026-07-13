@@ -22,6 +22,7 @@ export class AboutExerciseComponent {
   progressLogs: any[] = [];
   progressLogForm : any;
   addModeBool = false;
+  errorMessage = '';
 
   ngOnInit() {
     const id = this.route?.snapshot.paramMap.get('id');
@@ -40,6 +41,7 @@ export class AboutExerciseComponent {
   addMode() {
     this.addModeBool = !this.addModeBool;
     this.progressLogForm.reset();
+    this.errorMessage = '';
   }
 
   getProgressLogByExerciseId(id: number) {
@@ -60,7 +62,7 @@ export class AboutExerciseComponent {
     if (this.exerciseId === null) {
       return;
     }
-
+    this.errorMessage = '';
     this.api.addProgressLog$({
       exercise_id: this.exerciseId,
       weight: data.weight,
@@ -74,9 +76,13 @@ export class AboutExerciseComponent {
         if (this.addModeBool) {
           this.addProgressLogToggle?.nativeElement.click();
         }
+        
       },
       error: (err) => {
         console.log(err);
+        this.errorMessage = err.error?.errors
+          ? Object.values(err.error.errors).flat().join(' ')
+          : 'Hiba történt.';
       }
     })
   }

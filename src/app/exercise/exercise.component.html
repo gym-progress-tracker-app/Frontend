@@ -1,13 +1,37 @@
 @if(this.api.isLoggedIn()){
   <select class="form-select mt-3" aria-label="Exercise filter" (change)="onExerciseFilterChange($event)">
     <option value="all" [selected]="!ownExercises">All exercises</option>
-    <option value="own" [selected]="ownExercises">Own exercises</option>
+    <option value="own" [selected]="ownExercises">My exercises</option>
   </select>
-  
+  <div class="row g-2 mt-3 exercise-filters">
+    <div class="col-12 col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search by name"
+        aria-label="Search exercises by name"
+        [value]="exerciseNameFilter"
+        (input)="onExerciseNameFilterChange($event)">
+    </div>
+
+    <div class="col-12 col-md-6">
+      <select
+        class="form-select"
+        aria-label="Filter exercises by category"
+        [value]="exerciseCategoryFilter"
+        (change)="onExerciseCategoryFilterChange($event)">
+        <option value="">All categories</option>
+        @for(categoryName of availableExerciseCategories; track categoryName){
+          <option [value]="categoryName">{{categoryName}}</option>
+        }
+      </select>
+    </div>
+  </div>
+
   <p>
     <button #addExerciseToggle class="btn mt-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" (click)="addMode()">
       @if(addModeBool){
-        Cancel
+        Close
       }@else{
         Add Exercise
       }
@@ -24,7 +48,7 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="exerciseName">Exercise Category</label> 
+            <label class="form-label" for="exerciseName">Category</label> 
             <select class="form-select" aria-label="Default select example" formControlName="category">
 
               
@@ -43,8 +67,12 @@
             <input type="text" class="form-control" id="exerciseDescription" placeholder="Enter exercise description" formControlName="description">
           </div>
 
-          <button type="submit" class="btn">Add</button>
-
+          <button type="submit" class="btn">Create Exercise</button>
+          @if(this.errorMessage != ''){
+            <div class="alert alert-danger mt-3" role="alert">
+                {{ errorMessage }}
+            </div>
+          }
         </form>
 
       </div>
@@ -52,8 +80,10 @@
   </div>
 }
 
-<div class="row row-cols-1 row-cols-md-3 g-4 mt-4 mb-5">
-@for(exercise of exercises; track exercise.id){
+
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mt-4 mb-5">
+@for(exercise of exercises | exerciseFilter: exerciseNameFilter : exerciseCategoryFilter; track exercise.id){
     <div class="col">
       <div class="card h-100">
         <div [id]="'exerciseCarousel' + exercise.id" class="carousel slide h-100">
@@ -85,14 +115,14 @@
               <div class="card-body d-flex flex-column align-items-center exercise-slide-body">
                 <h5 class="card-title">{{exercise.name}}</h5>
                  @if(this.api.isLoggedIn()){
-                  <button class="btn btnsecondary mb-3" [routerLink]="['/aboutexercise', exercise.id]">Log Exercise</button>
+                  <button class="btn btnsecondary mb-3" [routerLink]="['/aboutexercise', exercise.id]">Record Workout</button>
                   @if(!isOwnExercise(exercise.id)){
-                    <button class="btn btnsecondary" (click)="addOwnExercise({ exercise_id: exercise.id })">Add to Own Exercises</button>
+                    <button class="btn btnsecondary" (click)="addOwnExercise({ exercise_id: exercise.id })">Add to My Exercises</button>
                   }@else {
-                    <button class="btn btnsecondary" (click)="removeOwnExercise(exercise.id)">Remove from Own Exercises</button>
+                    <button class="btn btnsecondary" (click)="removeOwnExercise(exercise.id)">Remove from My Exercises</button>
                   }
                  }@else{
-                  <button class="btn btnsecondary" [routerLink]="['/user']">Log In to Log Exercise</button>
+                  <button class="btn btnsecondary" [routerLink]="['/user']">Log In to Track Workouts</button>
                  }
               </div>
             </div>

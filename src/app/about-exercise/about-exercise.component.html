@@ -8,9 +8,9 @@
 <p>
   <button #addProgressLogToggle class="btn mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" (click)="addMode()">
     @if(addModeBool){
-      Cancel
+      Close
     }@else{
-      Add Progress Log
+      Record Workout
     }
   </button>
 </p>
@@ -39,7 +39,12 @@
           <input type="text" class="form-control" id="note" placeholder="Enter note" formControlName="note">
         </div>
 
-        <button type="submit" class="btn">Add</button>
+        <button type="submit" class="btn">Save Workout</button>
+          @if(this.errorMessage != ''){
+            <div class="alert alert-danger mt-3" role="alert">
+                {{ errorMessage }}
+            </div>
+        }        
       </form>
     </div>
   </div>
@@ -54,10 +59,10 @@
             <a>Reps: {{ progressLog.reps }}</a><br>
             <a>Sets: {{ progressLog.sets }}</a><br>
             <a>Note: {{ progressLog.note }}</a><br>
-            <a>Recorded: {{ progressLog.recorded_at }}</a>
+            <a>Recorded at: {{ progressLog.recorded_at }}</a>
             
         </li>
-        <button class="btn mb-2" (click)="deleteProgressLog(progressLog.id)">Törlés</button>
+        <button class="btn mb-2" (click)="deleteProgressLog(progressLog.id)">Delete</button>
         
 
     }
