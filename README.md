@@ -1,59 +1,96 @@
-# Frontend
+# Workout Tracker Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.12.
+This repository contains the Angular frontend for the Workout Tracker project. The application lets users browse exercises, manage a personal exercise list, and log workout progress over time.
 
-## Development server
+## Project Overview
 
-To start a local development server, run:
+The frontend is built with Angular 20 and communicates with a backend API running locally. It includes:
 
-```bash
-ng serve
+- a landing page with a short product introduction
+- user registration and login
+- a simple dashboard for logged-in users
+- exercise browsing with name and category filters
+- adding custom exercises
+- saving exercises to a personal list
+- progress log management for individual exercises
+
+## Tech Stack
+
+- Angular 20
+- TypeScript
+- RxJS
+- Bootstrap 5
+
+## Prerequisites
+
+Before starting the frontend, make sure you have:
+
+- Node.js and npm installed
+- the Workout Tracker backend API running locally
+
+The frontend is configured to call the backend at:
+
+```text
+http://localhost:8000/api/
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+If your backend runs on a different URL or port, update the API base URL in `src/environments/environments.ts`.
 
-## Code scaffolding
+## Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Install dependencies:
 
 ```bash
-ng generate --help
+npm install
 ```
 
-## Building
-
-To build the project run:
+Start the development server:
 
 ```bash
-ng build
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+After the app starts, open:
 
-## Running unit tests
+```text
+http://localhost:4200/
+```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Available Scripts
+
+Run the development server:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Create a production build:
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Run unit tests:
 
-## Additional Resources
+```bash
+npm test
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Run the development build watcher:
+
+```bash
+npm run watch
+```
+
+## Main Pages
+
+- `/` or `/home`: landing page
+- `/user`: login, registration, and user dashboard
+- `/exercise`: exercise list and personal exercise management
+- `/aboutexercise/:id`: progress log details for a selected exercise
+
+## Notes
+
+- Some features require authentication.
+- Authentication state is stored in the browser using `localStorage`.
+- The frontend expects the backend to provide the required exercise, category, user, and progress log endpoints.
